@@ -27,7 +27,7 @@ export default {
 ```
 Managing your list of songs will likely be the trickest part of the assignment. 
 
-### Step 1 -  Communicating with Services? `Total Points: 10`
+### Step 1 -  Communicating with Services? 
 
 Before starting step 1 You should already have a component that is responsible for drawing the `itunes songList` to the page. From your itunes component you will need to add a button to each song as it is rendered to the page so you have the option of adding it to your tracks....
 
@@ -43,12 +43,8 @@ Then make sure you take the `entire song object` and pass it to your `myTunes.ad
   }
 ```
 
-Requirements:
-- `2.5 points`: All songs are drawn to the page with an extra buttons to add to myTunes
-- `5 points`: Entire song objects are passed to the store
-- `2.5 points`: Once a song is sent to the `myTunes` it needs to be added to the `myTracks` array
 
-### Step 2 - The MyTunes Component `Total Points: 10`
+### Step 2 - The MyTunes Component 
 
 The Mytunes Component is the wow factor for your application. It is here where you can be creative in the way you want to manage your list. You will need to add a few more functions to your controller that will be tied to buttons for each of the songs in your list. 
 
@@ -63,15 +59,19 @@ Key features here will include:
 
 Also don't forget it would be useless to keep around a list if you couldn't still play the songs.
 
-Requirements:
-- `1 points`: Remove Track
-- `3 points`: Promote/Demote Track
-- `5 points`: Persist your data with mongoDB
-  - This is pretty much a gimme make sure you call the functions when needed
+### Requirements:
+  - Visualization
+      - Users have a Search component and a myTunes component seperate from each other on the page
+      - Playlist retains order set by user
+  - Functionality
+      - Retains functionality of first playlist
+      - Persist your data with mongoDB
+      - Add / Remove Tracks from Playlist
+      - Promote/Demote Tracks on Playlist
 
-### BONUS - Some enhancing features `Total Points: 5`
-Requirements: 
-- User Auth (3pts)
+
+### BONUS IDEAS - Some enhancing features 
+- User Auth
 - Have your myTunes List slide in and out when wanting to access it
 - Implement dragging to reorder your songs and drag to add to favorites
 
