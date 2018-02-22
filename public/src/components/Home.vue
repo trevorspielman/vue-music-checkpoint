@@ -1,18 +1,24 @@
 <template>
   <div class="home">
     <!-- YOU WILL PROBABLY END UP WITH SOMETHING LIKE THIS -->
-    <my-tunes class="my-tunes"></my-tunes>
     <itunes class="itunes"></itunes>
+    <my-tunes class="my-tunes"></my-tunes>
   </div>
 </template>
 
 <script>
+import MyTunes from './MyTunes.vue'
+import Itunes from './Itunes.vue'
 export default {
   name: 'home',
   data () {
     return {
       
     }
+  },
+  components: {
+    Itunes,
+    MyTunes
   }
 }
 </script>
