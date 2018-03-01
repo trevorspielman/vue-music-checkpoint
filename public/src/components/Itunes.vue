@@ -8,12 +8,14 @@
             <h4>Track Price:</h4>
         </div>
         <div v-for="song in searchResults">
-            <div class="d-flex justify-content-between">
+            <div class="row d-flex justify-content-between">
                 <div class="col-3">
                     <img :src=song.artworkUrl100>
+                    <button class="btn btn-outline-success" type="submit">Add to Playlist</button>
                 </div>
                 <div class="col-3">
                     <p>{{song.trackName}}</p>
+                    <p><strong>{{song.collectionName}}</strong></p>
                 </div>
                 <div class="col-3">
                     <p>{{song.artistName}}</p>
