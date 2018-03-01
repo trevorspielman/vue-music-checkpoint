@@ -1,5 +1,5 @@
 <template>
-    <div class="my-tunes">
+    <div class="my-tunes col-sm-6">
         <h1>List of MyTunes</h1>
     </div>
 </template>
