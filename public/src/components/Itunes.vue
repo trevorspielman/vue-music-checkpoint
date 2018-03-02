@@ -11,13 +11,16 @@
             <div class="row d-flex justify-content-between">
                 <div class="col-3">
                     <img :src=song.artworkUrl100>
-                    <button class="btn btn-outline-success" @click="addToMyTunes(song)">Add to Playlist</button>
+                    <button class="btn btn-outline-success" @click="addToActivePlaylist(song)">Add to Playlist</button>
                 </div>
                 <div class="col-3">
                     <p>{{song.trackName}}</p>
                     <p>
                         <strong>{{song.collectionName}}</strong>
                     </p>
+                    <audio controls class="players">
+                        <source :src="song.previewUrl"> type="audio/mpeg</a>
+                    </audio>
                 </div>
                 <div class="col-3">
                     <p>{{song.artistName}}</p>
@@ -35,34 +38,37 @@
     export default {
         name: 'iTunes',
         props: ['song'],
-        data() {
-            return {
+        mounted() {
+            },
+            data() {
+                return {
 
-            }
-        },
-        methods: {
-            addToMyTunes(song) {
-                debugger
-                let myTunes = this.$store.state.myTunes
-                console.log(myTunes)
-                for (var i = 0; i < myTunes.length; i++) {
-                    var mySong = this.$store.state.myTunes[i]
-                    if (mySong.trackId == song.trackId) {
-                        return alert(song.trackName + " is already on your watchlist")
-                    }
                 }
-                this.$store.dispatch('addToMyTunes', song)
             },
-        },
-        computed: {
-            searchResults() {
-                return this.$store.state.searchResults
+            methods: {
+                addToActivePlaylist(song) {
+                    console.log("this is my song:", song)
+                    let activePlaylistSongs = this.$store.state.activePlaylistSongs
+                    console.log(activePlaylistSongs)
+                    for (var i = 0; i < activePlaylistSongs.length; i++) {
+                        var mySong = this.$store.state.activePlaylistSongs[i]
+                        if (mySong.trackId == song.trackId) {
+                            return alert(song.trackName + " is already on your playlist")
+                        }
+                    }
+                    song.playlistId = this.$store.state.activePlaylist._id
+                    this.$store.dispatch('addToActivePlaylist', song)
+                },
             },
-            myTunes(){
-                return this.$store.state.myTunes
+            computed: {
+                searchResults() {
+                    return this.$store.state.searchResults
+                },
+                activePlaylist(){
+                    return this.$store.state.activePlaylist
+                }
             }
         }
-    }
 
 </script>
 

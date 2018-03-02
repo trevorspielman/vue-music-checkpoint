@@ -2,12 +2,17 @@ var mongoose = require('mongoose')
 // var bcrypt = require('bcryptjs')
 var Schema = mongoose.Schema
 var ObjectId = mongoose.SchemaTypes.ObjectId
-var schemaName = "Playlist"
+var schemaName = "Song"
 // const SALT_FACTOR = 13
 
 var schema = new Schema({
-  name:{type: String},
-
+  artistName:{type: String},
+  collectionName: {type: String},
+  trackName: {type: String},
+  artworkUrl60: {type: String},
+  trackId: {type: Number},
+  trackPrice: {type: Number},
+  playlistId: {type: ObjectId, ref: 'playlist', required: true}
   //createdBy: {type: ObjectId, ref: 'User', required: true},
 })
 

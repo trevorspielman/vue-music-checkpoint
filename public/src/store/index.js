@@ -21,42 +21,67 @@ let myTunesDB = axios.create({
 
 var store = new vuex.Store({
   state: {
-    myTunes: [],
-    searchResults: []
+    activePlaylistSongs: [],
+    searchResults: [],
+    playlists: [],
+    activePlaylist: {},
   },
   mutations: {
     setSearchResults(state, results) {
       state.searchResults = results
-      console.log(results)
     },
-    setMyPlaylist(state, results) {
-      state.myTunes = results
+    setActivePlaylist(state, results) {
+      state.activePlaylist = results
+    },
+    setActivePlaylistSongs(state, results) {
+      state.activePlaylistSongs = results
     },
     addSong(state, results) {
-      state.myTunes = results
-      console.log(state.myTunes)
+      state.activePlaylistSongs.push(results)
     },
+    promotedPlaylist(state, results) {
+      state.activePlaylistSongs = results
+    },
+    setMyPlaylists(state, results) {
+      state.playlists = results
+    }
   },
   actions: {
     searchItunes({ commit, dispatch }, artist) {
       itunesApi.get(artist)
         .then(res => {
-          console.log(res.data.results)
           commit('setSearchResults', res.data.results)
         })
     },
-    getMyTunes({ commit, dispatch }) {
+    getMyPlaylists({ commit, dispatch }) {
       myTunesDB.get('playlists')
         .then(res => {
-          commit('setMyPlaylist', res.data)
-          console.log("my playlist:", res.data)
+          commit('setMyPlaylists', res.data)
+        })
+    },
+    setActivePlaylist({ commit, dispatch }, payload) {
+      commit('setActivePlaylist', payload)
+    },
+    activePlaylistSongs({ commit, dispatch }, payload) {
+      myTunesDB.get('playlists/' + payload._id + '/songs')
+        .then(res => {
+          commit('setActivePlaylistSongs', res.data)
         })
         .catch(err => {
           console.error(err)
         })
     },
-    addToMyTunes({ commit, dispatch }, song) {
-      myTunesDB.post('playlists', song)
+    activePlaylistSongsRemoval({ commit, dispatch }, payload) {
+      myTunesDB.get('playlists/' + payload + '/songs')
+        .then(res => {
+          commit('setActivePlaylistSongs', res.data)
+        })
+        .catch(err => {
+          console.error(err)
+        })
+    },
+    addToActivePlaylist({ commit, dispatch }, song) {
+      myTunesDB.post('songs', song)
         .then(res => {
           commit('addSong', res.data)
         })
@@ -65,18 +90,24 @@ var store = new vuex.Store({
         })
     },
     removeSong({ commit, dispatch }, song) {
-      myTunesDB.delete('playlists/' + song._id)
+      myTunesDB.delete('playlists/' + song.playlistId + "/songs/" + song._id)
         .then(res => {
-          dispatch('getMyTunes')
+          console.log("this is my result:", res.data)
+          dispatch('activePlaylistSongsRemoval', res.data.playlistId)
         })
         .catch(err => {
           console.error(err)
         })
     },
-    promoteTrack({ commit, dispatch }, track) {
-      //this should increase the position / upvotes and downvotes on the track
+    promoteSong({ commit, dispatch }, payload) {
+      console.log("this is my promoted:", payload)
+      myTunesDB.put('playlists', payload)
+        .then(res => {
+          commit('promotedPlaylist', res.data)
+          console.log("Return:", res.data)
+        })
     },
-    demoteTrack({ commit, dispatch }, track) {
+    demoteSong({ commit, dispatch }, song) {
       //this should decrease the position / upvotes and downvotes on the track
     }
 
