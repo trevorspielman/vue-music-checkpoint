@@ -7,9 +7,12 @@ let express = require("express"),
 
 require("./server-assets/db/mlab-config");
 
+let Playlists = require('./server-assets/routes/Playlists')
+
 server.use(cors());
 server.use(bp.json());
 server.use(bp.urlencoded({ extended: true }));
+server.use(Playlists)
 
 //Your routes here
 

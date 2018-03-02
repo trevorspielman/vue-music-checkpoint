@@ -29,7 +29,7 @@
     methods: {
       searchItunes(artist) {
         this.$store.dispatch('searchItunes', this.artist)
-      }
+      },
     },
     components: {
       Itunes,

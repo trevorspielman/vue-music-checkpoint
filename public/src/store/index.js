@@ -1,6 +1,7 @@
 import vue from 'vue'
 import vuex from 'vuex'
 import axios from 'axios'
+import router from '../router'
 
 
 vue.use(vuex)
@@ -27,7 +28,14 @@ var store = new vuex.Store({
     setSearchResults(state, results) {
       state.searchResults = results
       console.log(results)
-    }
+    },
+    setMyPlaylist(state, results) {
+      state.myTunes = results
+    },
+    addSong(state, results) {
+      state.myTunes = results
+      console.log(state.myTunes)
+    },
   },
   actions: {
     searchItunes({ commit, dispatch }, artist) {
@@ -38,13 +46,32 @@ var store = new vuex.Store({
         })
     },
     getMyTunes({ commit, dispatch }) {
-      //this should send a get request to your server to return the list of saved tunes
+      myTunesDB.get('playlists')
+        .then(res => {
+          commit('setMyPlaylist', res.data)
+          console.log("my playlist:", res.data)
+        })
+        .catch(err => {
+          console.error(err)
+        })
     },
-    addToMyTunes({ commit, dispatch }, track) {
-      //this will post to your server adding a new track to your tunes
+    addToMyTunes({ commit, dispatch }, song) {
+      myTunesDB.post('playlists', song)
+        .then(res => {
+          commit('addSong', res.data)
+        })
+        .catch(err => {
+          console.error(err)
+        })
     },
-    removeTrack({ commit, dispatch }, track) {
-      //Removes track from the database with delete
+    removeSong({ commit, dispatch }, song) {
+      myTunesDB.delete('playlists/' + song._id)
+        .then(res => {
+          dispatch('getMyTunes')
+        })
+        .catch(err => {
+          console.error(err)
+        })
     },
     promoteTrack({ commit, dispatch }, track) {
       //this should increase the position / upvotes and downvotes on the track
