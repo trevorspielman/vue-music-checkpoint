@@ -47,27 +47,37 @@
             }
         },
         methods: {
-            setActivePlaylist(playlist){
+            setActivePlaylist(playlist) {
                 this.$store.dispatch('setActivePlaylist', playlist)
                 this.$store.dispatch('activePlaylistSongs', playlist)
             },
             removeSong(song) {
                 this.$store.dispatch('removeSong', song)
             },
-            // promoteSong(song) {
-            //     var playlist = this.$store.state.myTunes
-            //     console.log("This is my playlist:", playlist)
-            //     for (var i = 0; i < playlist.length; i++) {
-            //         var mySong = playlist[i]
-            //         if (mySong._id == song._id) {
-            //             playlist.splice(i, 1)
-            //             playlist.splice(i - 1, 0, song)
-            //             break
-            //         }
-            //     }
-            //     this.$store.dispatch('promoteSong', playlist)
-            // },
+            promoteSong(song) {
+                var playlist = this.$store.state.activePlaylistSongs
+                console.log("This is my playlist:", playlist)
+                for (var i = 0; i < playlist.length; i++) {
+                    var mySong = playlist[i]
+                    if (mySong._id == song._id) {
+                        playlist.splice(i, 1)
+                        playlist.splice(i - 1, 0, song)
+                        break
+                    }
+                }
+                this.$store.dispatch('promoteSong', playlist)
+            },
             demoteSong(song) {
+                var playlist = this.$store.state.activePlaylistSongs
+                console.log("This is my playlist:", playlist)
+                for (var i = 0; i < playlist.length; i++) {
+                    var mySong = playlist[i]
+                    if (mySong._id == song._id) {
+                        playlist.splice(i, 1)
+                        playlist.splice(i + 1, 0, song)
+                        break
+                    }
+                }
                 this.$store.dispatch('demoteSong', song)
             },
         },
@@ -78,7 +88,7 @@
             playlists() {
                 return this.$store.state.playlists
             },
-            activePlaylistSongs(){
+            activePlaylistSongs() {
                 return this.$store.state.activePlaylistSongs
             }
         }
