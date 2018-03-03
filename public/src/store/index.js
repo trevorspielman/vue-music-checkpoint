@@ -44,6 +44,11 @@ var store = new vuex.Store({
     },
     setMyPlaylists(state, results) {
       state.playlists = results
+    },
+    songIdtoPlaylist(state, results){
+      console.log('my results',results)
+      state.activePlaylist.songs.push(results)
+      console.log('my playlist track IDs', state.activePlaylist.songs)
     }
   },
   actions: {
@@ -71,6 +76,17 @@ var store = new vuex.Store({
           console.error(err)
         })
     },
+    addSongIdtoPlaylist({commit, dispatch}, song){
+      myTunesDB.get('playlists/' + song.playlistId, song.trackId)
+      .then(res=>{
+        console.log('Playlist', res)
+        console.log('Song ID', song.trackId)
+        commit('songIdtoPlaylist', song.trackId)
+      })
+      .catch(err => {
+        console.error(err)
+      })
+    },
     activePlaylistSongsRemoval({ commit, dispatch }, payload) {
       myTunesDB.get('playlists/' + payload + '/songs')
         .then(res => {
@@ -92,7 +108,6 @@ var store = new vuex.Store({
     removeSong({ commit, dispatch }, song) {
       myTunesDB.delete('playlists/' + song.playlistId + "/songs/" + song._id)
         .then(res => {
-          console.log("this is my result:", res.data)
           dispatch('activePlaylistSongsRemoval', res.data.playlistId)
         })
         .catch(err => {
@@ -101,10 +116,9 @@ var store = new vuex.Store({
     },
     promoteSong({ commit, dispatch }, payload) {
       console.log("this is my promoted:", payload)
-      myTunesDB.put('playlists', payload)
+      myTunesDB.put('playlists/' + payload[0].playlistId + '/songs/', payload)
         .then(res => {
-          commit('promotedPlaylist', res.data)
-          console.log("Return:", res.data)
+          console.log("Server Side Organization", res)
         })
     },
     demoteSong({ commit, dispatch }, song) {

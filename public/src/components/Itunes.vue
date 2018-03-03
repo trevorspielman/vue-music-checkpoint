@@ -47,7 +47,6 @@
             },
             methods: {
                 addToActivePlaylist(song) {
-                    console.log("this is my song:", song)
                     let activePlaylistSongs = this.$store.state.activePlaylistSongs
                     console.log(activePlaylistSongs)
                     for (var i = 0; i < activePlaylistSongs.length; i++) {
@@ -57,8 +56,10 @@
                         }
                     }
                     song.playlistId = this.$store.state.activePlaylist._id
+                    console.log("this is my song:", song)
                     this.$store.dispatch('addToActivePlaylist', song)
-                },
+                    this.$store.dispatch('addSongIdtoPlaylist', song)
+                }
             },
             computed: {
                 searchResults() {

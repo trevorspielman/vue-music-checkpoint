@@ -78,7 +78,7 @@
                         break
                     }
                 }
-                this.$store.dispatch('demoteSong', song)
+                this.$store.dispatch('demoteSong', playlist)
             },
         },
         computed: {

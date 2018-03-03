@@ -7,6 +7,9 @@ var schemaName = "Playlist"
 
 var schema = new Schema({
   name:{type: String},
+  songs:[{
+    type: String,
+  }]
 
   //createdBy: {type: ObjectId, ref: 'User', required: true},
 })
