@@ -32,6 +32,7 @@ var store = new vuex.Store({
     },
     setActivePlaylist(state, results) {
       state.activePlaylist = results
+      console.log('active playlist',results.name, results._id)
     },
     setActivePlaylistSongs(state, results) {
       state.activePlaylistSongs = results
@@ -45,10 +46,18 @@ var store = new vuex.Store({
     setMyPlaylists(state, results) {
       state.playlists = results
     },
-    songIdtoPlaylist(state, results){
-      console.log('my results',results)
-      state.activePlaylist.songs.push(results)
+    activePlaylistChanges(state, results){
+      state.activePlaylist.songs.push(results.trackId)
       console.log('my playlist track IDs', state.activePlaylist.songs)
+    },
+    activePlaylistToDB(state, results){
+      var playlists = state.playlists
+      for (let i = 0; i < playlists.length - 1; i++) {
+        if(playlists[i]._id == results._id){
+          playlists[i].songs = results.songs
+          console.log('This is my DB songs Arr', playlists[i])
+        }
+      }
     }
   },
   actions: {
@@ -76,15 +85,19 @@ var store = new vuex.Store({
           console.error(err)
         })
     },
-    addSongIdtoPlaylist({commit, dispatch}, song){
-      myTunesDB.get('playlists/' + song.playlistId, song.trackId)
+    addSongIdtoActivePlaylist({commit, dispatch}, song){
+      myTunesDB.get('playlists/' + song.playlistId, song)
       .then(res=>{
-        console.log('Playlist', res)
-        console.log('Song ID', song.trackId)
-        commit('songIdtoPlaylist', song.trackId)
+        commit('activePlaylistChanges', song)
       })
       .catch(err => {
         console.error(err)
+      })
+    },
+    putActivePlaylist({commit, dispatch}, payload){
+      myTunesDB.put('playlists/' + payload._id, payload)
+      .then(res=>{
+        commit('activePlaylistToDB', payload)
       })
     },
     activePlaylistSongsRemoval({ commit, dispatch }, payload) {
@@ -114,13 +127,13 @@ var store = new vuex.Store({
           console.error(err)
         })
     },
-    promoteSong({ commit, dispatch }, payload) {
-      console.log("this is my promoted:", payload)
-      myTunesDB.put('playlists/' + payload[0].playlistId + '/songs/', payload)
-        .then(res => {
-          console.log("Server Side Organization", res)
-        })
-    },
+    // promoteSong({ commit, dispatch }, payload) {
+    //   console.log("this is my promoted:", payload)
+    //   myTunesDB.get('playlists/' + payload[0].playlistId, payload)
+    //     .then(res => {
+    //       commit('songIdtoPlaylist', payload)
+    //     })
+    // },
     demoteSong({ commit, dispatch }, song) {
       //this should decrease the position / upvotes and downvotes on the track
     }

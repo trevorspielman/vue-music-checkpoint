@@ -58,7 +58,8 @@
                     song.playlistId = this.$store.state.activePlaylist._id
                     console.log("this is my song:", song)
                     this.$store.dispatch('addToActivePlaylist', song)
-                    this.$store.dispatch('addSongIdtoPlaylist', song)
+                    this.$store.dispatch('addSongIdtoActivePlaylist', song)
+                    this.$store.dispatch('putActivePlaylist', this.$store.state.activePlaylist)
                 }
             },
             computed: {
@@ -67,6 +68,9 @@
                 },
                 activePlaylist(){
                     return this.$store.state.activePlaylist
+                },
+                activePlaylistToDB(){
+                    return this.$store.state.activePlaylistToDB
                 }
             }
         }

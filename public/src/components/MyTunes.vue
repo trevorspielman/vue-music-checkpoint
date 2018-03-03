@@ -53,17 +53,25 @@
             },
             removeSong(song) {
                 this.$store.dispatch('removeSong', song)
+                this.$store.dispatch('putActivePlaylist', this.$store.state.activePlaylist)
             },
             promoteSong(song) {
+                console.log('active playlist', this.$store.state.activePlaylist)
+                var songOrder = this.$store.state.activePlaylist.songs
                 var playlist = this.$store.state.activePlaylistSongs
+                console.log('song order', songOrder)
                 console.log("This is my playlist:", playlist)
-                for (var i = 0; i < playlist.length; i++) {
-                    var mySong = playlist[i]
-                    if (mySong._id == song._id) {
-                        playlist.splice(i, 1)
-                        playlist.splice(i - 1, 0, song)
-                        break
+                for (var x = 0; x < songOrder.length; x++) {
+                    var trackId = songOrder[x]
+                    for (var i = 0; i < playlist.length; i++) {
+                        var mySong = playlist[i]
+                        if (mySong.trackId == trackId) {
+                            var promoted = playlist.splice(i, 1)
+                            playlist.splice(i - 1, 0, promoted[0])
+                            break
+                        }
                     }
+                    return playlist
                 }
                 this.$store.dispatch('promoteSong', playlist)
             },
@@ -90,6 +98,9 @@
             },
             activePlaylistSongs() {
                 return this.$store.state.activePlaylistSongs
+            },
+            activePlaylistToDB() {
+                return this.$store.state.activePlaylistToDB
             }
         }
     }
