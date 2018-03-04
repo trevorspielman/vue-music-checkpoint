@@ -1,13 +1,10 @@
 <template>
   <div class="home container-fluid">
-    <div class="row">
-      <div class="col-sm-12">
+    <div class="row header">
+      <div class="col-sm-12 d-flex justify-content-center">
         <h1>Welcome to My-Tunes!</h1>
       </div>
-      <form class="col-sm-12" @submit.prevent="searchItunes">
-        <input type="text" placeholder="Artist Name" v-model="artist">
-        <button class="btn-primary" type="submit">Search Itunes</button>
-      </form>
+
     </div>
     <div class="row">
       <itunes class="itunes"></itunes>
@@ -27,9 +24,6 @@
       }
     },
     methods: {
-      searchItunes(artist) {
-        this.$store.dispatch('searchItunes', this.artist)
-      },
     },
     components: {
       Itunes,
@@ -39,7 +33,17 @@
 </script>
 
 
-<style>
+<style scoped>
+  h1{
+    font-family: 'Pacifico', cursive;
+    color: blue
+  }
+  .header{
+    min-height: 4rem;
+    height: 6rem;
+    background-color: rgba(0,0,0,.7);
+    align-items: center
+  }
   .my-tunes {
     display: inline-block;
     min-height: 500px;

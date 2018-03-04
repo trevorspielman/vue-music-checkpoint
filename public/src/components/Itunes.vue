@@ -1,36 +1,59 @@
 <template>
     <div class="itunes col-sm-6">
-        <h1>iTunes Search</h1>
-        <div class="d-flex justify-content-around">
-            <h4>Album:</h4>
-            <h4>Track:</h4>
-            <h4>Artist:</h4>
-            <h4>Track Price:</h4>
-        </div>
-        <div v-for="song in searchResults">
-            <div class="row d-flex justify-content-between">
-                <div class="col-3">
-                    <img :src=song.artworkUrl100>
-                    <button class="btn btn-outline-success" @click="addToActivePlaylist(song)">Add to Playlist</button>
-                </div>
-                <div class="col-3">
-                    <p>{{song.trackName}}</p>
-                    <p>
-                        <strong>{{song.collectionName}}</strong>
-                    </p>
-                    <audio controls class="players" v-on:play="pausePlayback">
-                        <source :src="song.previewUrl"> type="audio/mpeg</a>
-                    </audio>
-                </div>
-                <div class="col-3">
-                    <p>{{song.artistName}}</p>
-                </div>
-                <div class="col-3">
-                    <p>${{song.trackPrice}}</p>
-                </div>
+        <div class="row">
+            <div class="col-12 searchHeader">
+                <h2>iTunes Search</h2>
+                <form class="m-3" @submit.prevent="searchItunes">
+                    <input type="text" placeholder="Artist Name" v-model="artist">
+                    <button class="btn-primary" type="submit">Search</button>
+                </form>
             </div>
         </div>
-
+        <div class="row">
+            <div class="col-12">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">
+                                <h4>Album:</h4>
+                            </th>
+                            <th scope="col">
+                                <h4>Track:</h4>
+                            </th>
+                            <th scope="col">
+                                <h4>Artist:</h4>
+                            </th>
+                            <th scope="col">
+                                <h4>Track Price:</h4>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody v-for="song in searchResults">
+                        <tr>
+                            <td>
+                                <img class="m-1" :src=song.artworkUrl60>
+                                <audio controls class="players" v-on:play="pausePlayback">
+                                    <source :src="song.previewUrl"> type="audio/mpeg</a>
+                                </audio>
+                            </td>
+                            <td>
+                                <p>{{song.trackName}}</p>
+                                <p>
+                                    <strong>{{song.collectionName}}</strong>
+                                </p>
+                            </td>
+                            <td>
+                                <p>{{song.artistName}}</p>
+                            </td>
+                            <td>
+                                <p>${{song.trackPrice}}</p>
+                                <i class="fas fa-plus fa-2x" @click="addToActivePlaylist(song)"></i>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -46,6 +69,9 @@
             }
         },
         methods: {
+            searchItunes(artist) {
+                this.$store.dispatch('searchItunes', this.artist)
+            },
             addToActivePlaylist(song) {
                 let activePlaylistSongs = this.$store.state.activePlaylistSongs
                 console.log(activePlaylistSongs)
@@ -84,8 +110,23 @@
 
 </script>
 
-<style>
+<style scoped>
     .itunes {
         text-align: center
+    }
+
+    .searchHeader {
+        height: 4rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    h2 {
+        font-family: 'Fira Sans', sans-serif;
+    }
+
+    p {
+        font-family: 'Maven Pro', sans-serif;
     }
 </style>

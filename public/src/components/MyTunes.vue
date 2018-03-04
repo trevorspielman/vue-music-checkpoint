@@ -1,38 +1,57 @@
 <template>
     <div class="my-tunes col-sm-6">
-        <h1>List of MyTunes</h1>
-        <div v-for="playlist in playlists">
-            <h4 @click="setActivePlaylist(playlist)">{{playlist.name}}</h4>
-        </div>
-        <div class="d-flex justify-content-around">
-            <h4>Album:</h4>
-            <h4>Track:</h4>
-            <h4>Artist:</h4>
-            <h4>Track Price:</h4>
-        </div>
-        <div v-for="song in activePlaylistSongs">
-            <div class="row d-flex justify-content-between">
-                <div class="col-3">
-                    <img :src=song.artworkUrl60>
-                    <button class="btn btn-outline-danger" @click="removeSong(song)">Remove</button>
-                </div>
-                <div class="col-3">
-                    <p>{{song.trackName}}</p>
-                    <p>
-                        <strong>{{song.collectionName}}</strong>
-                    </p>
-                </div>
-                <div class="col-3">
-                    <p>{{song.artistName}}</p>
-                </div>
-                <div class="col-3">
-                    <button @click="promoteSong(song)">Promote</button>
-                    <button @click="demoteSong(song)">Demote</button>
+        <div class="row">
+            <div class="col-12 d-flex align-items-center justify-content-center playlistHeader">
+                <h2 class="d-inline-flex">MyTunes</h2>
+                <button class="btn btn-secondary dropdown-toggle m-3" data-toggle="dropdown">
+                    Playlists:
+                </button>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" v-for="playlist in playlists" href="#">
+                        <p @click="setActivePlaylist(playlist)">{{playlist.name}}</p>
+                    </a>
                 </div>
             </div>
         </div>
-
-    </div>
+        <div class="row">
+            <div class="col-12">
+                <table class="table">
+                    <thead>
+                        <th scope="col">
+                            <h4>Album:</h4>
+                        </th>
+                        <th scope="col">
+                            <h4>Track:</h4>
+                        </th>
+                        <th scope="col">
+                            <h4>Artist:</h4>
+                        </th>
+                        <th></th>
+                    </thead>
+                    <tbody v-for="song in activePlaylistSongs">
+                        <tr>
+                            <td>
+                                <img :src=song.artworkUrl60>
+                            </td>
+                            <td>
+                                <p>{{song.trackName}}</p>
+                                <p>
+                                    <strong>{{song.collectionName}}</strong>
+                                </p>
+                            </td>
+                            <td>
+                                <p>{{song.artistName}}</p>
+                            </td>
+                            <td>
+                                <i class="fas fa-sort-amount-up fa-2x" @click="promoteSong(song)"></i>
+                                <i class="fas fa-sort-amount-down fa-2x" @click="demoteSong(song)"></i>
+                                <i class="fas fa-ban fa-2x" @click="removeSong(song)"></i>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -117,5 +136,17 @@
 
 </script>
 
-<style>
+<style scoped>
+    .playlistHeader{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 4rem
+    }
+    h2{
+        font-family: 'Fira Sans', sans-serif;
+    }
+    p{
+        font-family: 'Maven Pro', sans-serif;
+    }
 </style>
