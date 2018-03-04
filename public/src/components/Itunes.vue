@@ -59,7 +59,7 @@
                     console.log("this is my song:", song)
                     this.$store.dispatch('addToActivePlaylist', song)
                     this.$store.dispatch('addSongIdtoActivePlaylist', song)
-                    this.$store.dispatch('putActivePlaylist', this.$store.state.activePlaylist)
+                    // this.$store.dispatch('putActivePlaylist', this.$store.state.activePlaylist)
                 }
             },
             computed: {
