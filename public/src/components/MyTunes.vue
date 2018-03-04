@@ -8,7 +8,7 @@
                 </button>
                 <div class="dropdown-menu">
                     <a class="dropdown-item" v-for="playlist in playlists" href="#">
-                        <p @click="setActivePlaylist(playlist)">{{playlist.name}}</p>
+                        <p class="dropdown-option" @click="setActivePlaylist(playlist)">{{playlist.name}}</p>
                     </a>
                 </div>
             </div>
@@ -137,8 +137,13 @@
 </script>
 
 <style scoped>
+    .dropdown-option{
+        padding: 0px
+    }
     .dropdown-item{
         color: whitesmoke;
+        display: flex;
+        align-content: center
     }
     .dropdown-item:hover{
         background-color: rgba(128, 0, 128, 0.541)

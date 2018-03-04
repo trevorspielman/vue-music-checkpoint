@@ -43,18 +43,11 @@
     height: 7rem;
     background: linear-gradient(rgba(0, 0, 0, 1), rgba(0, 0, 0, 0.8));
     align-items: center;
-  }
-  .my-tunes {
-    display: inline-block;
-    min-height: 500px;
-    min-width: 50%;
-    background: green;
+    border-bottom: 4px solid purple
   }
 
   .itunes {
     display: inline-block;
-    background: red;
     min-height: 100vh;
-    min-width: 45%;
   }
 </style>
