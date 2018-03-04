@@ -18,13 +18,13 @@
                                 <h4>Album:</h4>
                             </th>
                             <th scope="col">
-                                <h4>Track:</h4>
+                                <h4>Track/Album:</h4>
                             </th>
                             <th scope="col">
                                 <h4>Artist:</h4>
                             </th>
                             <th scope="col">
-                                <h4>Track Price:</h4>
+                                <h4>Price:</h4>
                             </th>
                         </tr>
                     </thead>
