@@ -32,8 +32,16 @@ router.get('/api/playlists/:id', (req, res, next) => {
 
 router.put('/api/playlists/:id', (req, res, next) => {
     Playlists.findByIdAndUpdate(req.params.id, req.body, { new: true })
-        .then(Playlist => {
-            res.send(Playlist)
+        .then(playlist => {
+            for (var i = 0; i < playlist.songs.length; i++) {
+                if (playlist.songs[i].trackId == req.body.trackId) {
+                    playlist.songs.splice(i, 1)
+                    playlist.markModified('songs')
+                    playlist.save()
+                    break;
+                }
+            }
+            res.send(playlist)
         })
         .catch(next)
 })

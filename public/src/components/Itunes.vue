@@ -18,7 +18,7 @@
                     <p>
                         <strong>{{song.collectionName}}</strong>
                     </p>
-                    <audio controls class="players">
+                    <audio controls class="players" v-on:play="pausePlayback">
                         <source :src="song.previewUrl"> type="audio/mpeg</a>
                     </audio>
                 </div>
@@ -39,41 +39,48 @@
         name: 'iTunes',
         props: ['song'],
         mounted() {
-            },
-            data() {
-                return {
+        },
+        data() {
+            return {
 
-                }
-            },
-            methods: {
-                addToActivePlaylist(song) {
-                    let activePlaylistSongs = this.$store.state.activePlaylistSongs
-                    console.log(activePlaylistSongs)
-                    for (var i = 0; i < activePlaylistSongs.length; i++) {
-                        var mySong = this.$store.state.activePlaylistSongs[i]
-                        if (mySong.trackId == song.trackId) {
-                            return alert(song.trackName + " is already on your playlist")
-                        }
+            }
+        },
+        methods: {
+            addToActivePlaylist(song) {
+                let activePlaylistSongs = this.$store.state.activePlaylistSongs
+                console.log(activePlaylistSongs)
+                for (var i = 0; i < activePlaylistSongs.length; i++) {
+                    var mySong = this.$store.state.activePlaylistSongs[i]
+                    if (mySong.trackId == song.trackId) {
+                        return alert(song.trackName + " is already on your playlist")
                     }
-                    song.playlistId = this.$store.state.activePlaylist._id
-                    console.log("this is my song:", song)
-                    this.$store.dispatch('addToActivePlaylist', song)
-                    this.$store.dispatch('addSongIdtoActivePlaylist', song)
-                    // this.$store.dispatch('putActivePlaylist', this.$store.state.activePlaylist)
                 }
+                song.playlistId = this.$store.state.activePlaylist._id
+                console.log("this is my song:", song)
+                this.$store.dispatch('addToActivePlaylist', song)
+                this.$store.dispatch('addSongIdtoActivePlaylist', song)
             },
-            computed: {
-                searchResults() {
-                    return this.$store.state.searchResults
-                },
-                activePlaylist(){
-                    return this.$store.state.activePlaylist
-                },
-                activePlaylistToDB(){
-                    return this.$store.state.activePlaylistToDB
+            pausePlayback: function (play) { // event listener to identify the active player.
+                var player = document.getElementsByClassName('players') //aliasing the players class
+                for (let i = 0; i < player.length; i++) { //sorting through all players
+                    if (player[i] != play.target) { //identifying if the player isn't the current one active
+                        player[i].pause() //if it isn't then the current one active is paused.
+                    }
                 }
             }
+        },
+        computed: {
+            searchResults() {
+                return this.$store.state.searchResults
+            },
+            activePlaylist() {
+                return this.$store.state.activePlaylist
+            },
+            activePlaylistToDB() {
+                return this.$store.state.activePlaylistToDB
+            }
         }
+    }
 
 </script>
 
