@@ -104,6 +104,8 @@ var store = new vuex.Store({
       myTunesDB.get('playlists/' + payload + '/songs')
         .then(res => {
           commit('setActivePlaylistSongs', res.data)
+          dispatch('putActivePlaylist', store.state.activePlaylist)
+          console.log(store.state.activePlaylist)
         })
         .catch(err => {
           console.error(err)
@@ -130,10 +132,10 @@ var store = new vuex.Store({
     },
     promoteSong({ commit, dispatch }, payload) {
       console.log("this is my promoted:", payload)
-      // myTunesDB.get('playlists/' + payload[0].playlistId, payload)
-      //   .then(res => {
-      //     commit('activePlaylistToDB', payload)
-      //   })
+      myTunesDB.put('playlists/' + payload[0].playlistId, payload)
+        .then(res => {
+          commit('activePlaylistToDB', payload)
+        })
     },
     demoteSong({ commit, dispatch }, song) {
       //this should decrease the position / upvotes and downvotes on the track
