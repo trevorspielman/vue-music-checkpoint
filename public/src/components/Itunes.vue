@@ -3,9 +3,9 @@
         <div class="row">
             <div class="col-12 searchHeader">
                 <h2>iTunes Search</h2>
-                <form class="m-3" @submit.prevent="searchItunes">
-                    <input type="text" placeholder="Artist Name" v-model="artist">
-                    <button class="btn-primary" type="submit">Search</button>
+                <form class="form m-3" @submit.prevent="searchItunes">
+                    <input class="formInput" type="text" placeholder="Artist Name" v-model="artist">
+                    <button class="btn formBtn" type="submit">Search</button>
                 </form>
             </div>
         </div>
@@ -65,7 +65,7 @@
         },
         data() {
             return {
-
+                artist: ''
             }
         },
         methods: {
@@ -111,8 +111,29 @@
 </script>
 
 <style scoped>
+    .formInput {
+        border: 2px solid purple;
+        border-radius: 5px;
+        background-color: rgba(100, 100, 100, 0.541);
+        color: whitesmoke;
+        height: 38px;
+        background-position: 10px 10px;
+        background-image: url('../assets/searchicon.png');
+        background-repeat: no-repeat;
+        padding-left: 40px
+    }
+
+    .formBtn {
+        background: purple;
+        color: whitesmoke;
+    }
+
     .itunes {
-        text-align: center
+        text-align: center;
+        background: linear-gradient(to left, rgba(255, 255, 255, 0.2), rgba(0, 0, 0, 0.7)), url("../assets/headerbg.jpg");
+        color: whitesmoke;
+        background-size: fill;
+        background-attachment: fixed
     }
 
     .searchHeader {

@@ -3,7 +3,7 @@
         <div class="row">
             <div class="col-12 d-flex align-items-center justify-content-center playlistHeader">
                 <h2 class="d-inline-flex">MyTunes</h2>
-                <button class="btn btn-secondary dropdown-toggle m-3" data-toggle="dropdown">
+                <button class="btn playlistBtn dropdown-toggle m-3" data-toggle="dropdown">
                     Playlists:
                 </button>
                 <div class="dropdown-menu">
@@ -137,6 +137,27 @@
 </script>
 
 <style scoped>
+    .dropdown-item{
+        color: whitesmoke;
+    }
+    .dropdown-item:hover{
+        background-color: rgba(128, 0, 128, 0.541)
+    }
+    .dropdown-menu{
+        border: 2px solid purple;
+        border-radius: 5px;
+        background-color: rgba(100, 100, 100, 0.541);
+    }
+    .playlistBtn{
+        background: purple;
+        color: whitesmoke;
+    }
+    .my-tunes{
+        background: linear-gradient(to right, rgba(255, 255, 255, 0.2), rgba(0, 0, 0, 0.7)), url("../assets/headerbg.jpg");
+        color: whitesmoke;
+        background-size: fill;
+        background-attachment: fixed
+    }
     .playlistHeader{
         display: flex;
         align-items: center;

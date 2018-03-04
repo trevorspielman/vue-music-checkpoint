@@ -20,7 +20,6 @@
     name: 'home',
     data() {
       return {
-        artist: ''
       }
     },
     methods: {
@@ -36,13 +35,14 @@
 <style scoped>
   h1{
     font-family: 'Pacifico', cursive;
-    color: blue
+    color: purple;
+    font-size: 4rem
   }
   .header{
     min-height: 4rem;
-    height: 6rem;
-    background-color: rgba(0,0,0,.7);
-    align-items: center
+    height: 7rem;
+    background: linear-gradient(rgba(0, 0, 0, 1), rgba(0, 0, 0, 0.8));
+    align-items: center;
   }
   .my-tunes {
     display: inline-block;
@@ -54,7 +54,7 @@
   .itunes {
     display: inline-block;
     background: red;
-    min-height: 500px;
+    min-height: 100vh;
     min-width: 45%;
   }
 </style>
