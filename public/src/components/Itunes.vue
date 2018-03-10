@@ -37,9 +37,9 @@
                                 </audio>
                             </td>
                             <td>
-                                <p>{{song.trackName}}</p>
+                                <p><strong>{{song.trackName}}</strong></p>
                                 <p>
-                                    <strong>{{song.collectionName}}</strong>
+                                    {{song.collectionName}}
                                 </p>
                             </td>
                             <td>
@@ -47,7 +47,7 @@
                             </td>
                             <td>
                                 <p>${{song.trackPrice}}</p>
-                                <i class="fas fa-plus fa-2x" @click="addToActivePlaylist(song)"></i>
+                                <i class="fas fa-plus fa-2x" @click="addSong(song)"></i>
                             </td>
                         </tr>
                     </tbody>
@@ -72,19 +72,19 @@
             searchItunes(artist) {
                 this.$store.dispatch('searchItunes', this.artist)
             },
-            addToActivePlaylist(song) {
-                let activePlaylistSongs = this.$store.state.activePlaylistSongs
-                console.log(activePlaylistSongs)
+            addSong(song) {
+                let activePlaylistSongs = this.$store.state.activePlaylist.songs
                 for (var i = 0; i < activePlaylistSongs.length; i++) {
-                    var mySong = this.$store.state.activePlaylistSongs[i]
+                    var mySong = activePlaylistSongs[i]
                     if (mySong.trackId == song.trackId) {
                         return alert(song.trackName + " is already on your playlist")
                     }
                 }
                 song.playlistId = this.$store.state.activePlaylist._id
-                console.log("this is my song:", song)
-                this.$store.dispatch('addToActivePlaylist', song)
-                this.$store.dispatch('addSongIdtoActivePlaylist', song)
+                var activePlaylist = this.activePlaylist
+                activePlaylist.songs.push(song)
+                this.$store.dispatch('addSong', song)
+                // this.$store.dispatch('putToDBPlaylist', activePlaylist)
             },
             pausePlayback: function (play) { // event listener to identify the active player.
                 var player = document.getElementsByClassName('players') //aliasing the players class
@@ -102,9 +102,9 @@
             activePlaylist() {
                 return this.$store.state.activePlaylist
             },
-            activePlaylistToDB() {
-                return this.$store.state.activePlaylistToDB
-            }
+            // activePlaylistToDB() {
+            //     return this.$store.state.activePlaylistToDB
+            // }
         }
     }
 
