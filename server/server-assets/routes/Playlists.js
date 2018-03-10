@@ -54,7 +54,7 @@ router.post('/api/playlists', (req, res, next) => {
 //Add a song to a playlists.song array
 router.post('/api/playlists/:id', (req, res, next) => {
     Playlists.findById(req.params.id)
-        .then(playlist => {
+    .then(playlist => {
             playlist.songs.set(playlist.songs.length, req.body)
             playlist.markModified('songs')
             playlist.save()

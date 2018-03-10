@@ -69,7 +69,6 @@
         methods: {
             setActivePlaylist(playlist) {
                 this.$store.dispatch('setActivePlaylist', playlist)
-                // this.$store.dispatch('activePlaylistSongs', playlist)
                 // this.$store.dispatch('songOrder', playlist)
             },
             removeSong(song) {
@@ -111,12 +110,6 @@
             playlists() {
                 return this.$store.state.playlists
             },
-            // activePlaylistSongs() {
-            //     return this.$store.state.activePlaylistSongs
-            // },
-            // activePlaylistToDB() {
-            //     return this.$store.state.activePlaylistToDB
-            // }
         }
     }
 

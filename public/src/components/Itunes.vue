@@ -84,7 +84,6 @@
                 var activePlaylist = this.activePlaylist
                 activePlaylist.songs.push(song)
                 this.$store.dispatch('addSong', song)
-                // this.$store.dispatch('putToDBPlaylist', activePlaylist)
             },
             pausePlayback: function (play) { // event listener to identify the active player.
                 var player = document.getElementsByClassName('players') //aliasing the players class
@@ -102,9 +101,6 @@
             activePlaylist() {
                 return this.$store.state.activePlaylist
             },
-            // activePlaylistToDB() {
-            //     return this.$store.state.activePlaylistToDB
-            // }
         }
     }
 
