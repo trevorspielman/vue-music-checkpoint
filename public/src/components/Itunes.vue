@@ -73,9 +73,9 @@
                 this.$store.dispatch('searchItunes', this.artist)
             },
             addSong(song) {
-                let activePlaylistSongs = this.$store.state.activePlaylist.songs
-                for (var i = 0; i < activePlaylistSongs.length; i++) {
-                    var mySong = activePlaylistSongs[i]
+                let activeSongs = this.$store.state.activeSongs
+                for (var i = 0; i < activeSongs.length; i++) {
+                    var mySong = activeSongs[i]
                     if (mySong.trackId == song.trackId) {
                         return alert(song.trackName + " is already on your playlist")
                     }

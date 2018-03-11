@@ -28,7 +28,7 @@
                         </th>
                         <th></th>
                     </thead>
-                    <tbody v-for="song in activeSongs">
+                    <tbody v-for="song in activePlaylist.songs">
                         <tr>
                             <td>
                                 <img :src=song.artworkUrl60>
@@ -69,26 +69,26 @@
         methods: {
             setActivePlaylist(playlist) {
                 this.$store.dispatch('setActivePlaylist', playlist)
-                this.$store.dispatch('setActiveSongs', playlist)
                 // this.$store.dispatch('songOrder', playlist)
             },
             removeSong(song) {
                 this.$store.dispatch('removeSong', song)
+                this.$store.dispatch('activePlaylistSongsRemoval', song)
             },
             promoteSong(song) {
-                var songOrder = this.$store.state.activePlaylist.songs
+                // var songOrder = this.$store.state.activePlaylist.songs
+                var playlist = this.$store.state.activePlaylist.songs
                 var arrIndex = -1
-                for (var i = 0; i < songOrder.length; i++) {
-                    var mySong = songOrder[i]
+                for (var i = 0; i < playlist.length; i++) {
+                    var mySong = playlist[i]
                     if (mySong.trackId == song.trackId) {
-                        songOrder.splice(i, 1)
-                        songOrder.splice(i - 1, 0, song)
+                        playlist.splice(i, 1)
+                        playlist.splice(i - 1, 0, song)
                         break
                     }
                 }
                 var activePlaylist = this.activePlaylist
-                activePlaylist.songs = songOrder
-                // this.$store.dispatch('putActivePlaylist', activePlaylist)
+                this.$store.dispatch('setActivePlaylist', activePlaylist)
             },
             demoteSong(song) {
                 var playlist = this.$store.state.activePlaylistSongs

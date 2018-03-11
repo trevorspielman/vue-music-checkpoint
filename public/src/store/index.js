@@ -24,7 +24,7 @@ var store = new vuex.Store({
     searchResults: [],
     playlists: [],
     activePlaylist: {},
-    activeSongs: []
+    // activeSongs: []
   },
   mutations: {
     setSearchResults(state, results) {
@@ -37,22 +37,9 @@ var store = new vuex.Store({
       state.activePlaylist = results
       console.log('active playlist', results.name, results._id)
     },
-    setActiveSongs(state,results){
-      state.activeSongs = results
-    },
-    activePlaylistChanges(state, results) {
-      state.activePlaylist.songs.push(results.trackId)
-      console.log('my playlist track IDs', state.activePlaylist.songs)
-    },
-    // activePlaylistToDB(state, results) {
-    //   var playlists = state.playlists
-    //   for (let i = 0; i < playlists.length - 1; i++) {
-    //     if (playlists[i]._id == results._id) {
-    //       playlists[i].songs = results.songs
-    //       console.log('This is my DB songs Arr', playlists[i])
-    //     }
-    //   }
-    // }
+    // setActiveSongs(state, results) {
+    //   state.activeSongs = results
+    // },
   },
   actions: {
     searchItunes({ commit, dispatch }, artist) {
@@ -68,12 +55,10 @@ var store = new vuex.Store({
         })
     },
     setActivePlaylist({ commit, dispatch }, payload) {
-      commit('setActivePlaylist', payload)
-    },
-    setActiveSongs({ commit, dispatch }, payload) {
       myTunesDB.get('playlists/' + payload._id + '/songs')
         .then(res => {
-          commit('setActiveSongs', res.data)
+          commit('setActivePlaylist', payload)
+          // commit('setActiveSongs', res.data)
         })
         .catch(err => {
           console.error(err)
@@ -83,34 +68,31 @@ var store = new vuex.Store({
       console.log("Added Song", song)
       myTunesDB.post('playlists/' + song.playlistId + '/songs', song)
         .then(res => {
-          dispatch('addToPlaylist', res.data)
+          dispatch('addToDBPlaylist', res.data)
+          dispatch('setActivePlaylist', store.state.activePlaylist)
         })
         .catch(err => {
           console.error(err)
         })
     },
-    addToPlaylist({ commit, dispatch }, payload) {
-      console.log("add to playlist payload:", payload)
+    addToDBPlaylist({ commit, dispatch }, payload) {
       myTunesDB.post('playlists/' + payload.playlistId, payload)
         .then(res => {
-          console.log("Set Active Playlist is using this data", res, "Could it use payload?", payload)
           commit('setActivePlaylist', res.data)
         })
     },
     activePlaylistSongsRemoval({ commit, dispatch }, payload) {
-      myTunesDB.get('playlists/' + payload + '/songs')
+      myTunesDB.put('playlists/' + payload.playlistId, payload)
         .then(res => {
-          commit('setActiveSongs', res.data)
-          // dispatch('putActivePlaylist', store.state.activePlaylist)
+          commit('setActivePlaylist', res.data)
         })
         .catch(err => {
           console.error(err)
         })
     },
     removeSong({ commit, dispatch }, song) {
-      myTunesDB.delete('playlists/' + song.playlistId + "/songs/" + song._id)
+      myTunesDB.delete('playlists/' + song.playlistId + '/songs/' + song._id)
         .then(res => {
-          dispatch('activePlaylistSongsRemoval', res.data.playlistId)
         })
         .catch(err => {
           console.error(err)
