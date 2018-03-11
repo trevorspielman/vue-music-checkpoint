@@ -24,6 +24,7 @@ var store = new vuex.Store({
     searchResults: [],
     playlists: [],
     activePlaylist: {},
+    activeSongs: []
   },
   mutations: {
     setSearchResults(state, results) {
@@ -36,7 +37,9 @@ var store = new vuex.Store({
       state.activePlaylist = results
       console.log('active playlist', results.name, results._id)
     },
-
+    setActiveSongs(state,results){
+      state.activeSongs = results
+    },
     activePlaylistChanges(state, results) {
       state.activePlaylist.songs.push(results.trackId)
       console.log('my playlist track IDs', state.activePlaylist.songs)
@@ -67,6 +70,15 @@ var store = new vuex.Store({
     setActivePlaylist({ commit, dispatch }, payload) {
       commit('setActivePlaylist', payload)
     },
+    setActiveSongs({ commit, dispatch }, payload) {
+      myTunesDB.get('playlists/' + payload._id + '/songs')
+        .then(res => {
+          commit('setActiveSongs', res.data)
+        })
+        .catch(err => {
+          console.error(err)
+        })
+    },
     addSong({ commit, dispatch }, song) {
       console.log("Added Song", song)
       myTunesDB.post('playlists/' + song.playlistId + '/songs', song)
@@ -86,11 +98,10 @@ var store = new vuex.Store({
         })
     },
     activePlaylistSongsRemoval({ commit, dispatch }, payload) {
-      myTunesDB.put('playlists/' + payload + '/songs')
+      myTunesDB.get('playlists/' + payload + '/songs')
         .then(res => {
-          commit('setActivePlaylistSongs', res.data)
-          dispatch('putActivePlaylist', store.state.activePlaylist)
-          console.log(store.state.activePlaylist)
+          commit('setActiveSongs', res.data)
+          // dispatch('putActivePlaylist', store.state.activePlaylist)
         })
         .catch(err => {
           console.error(err)
@@ -99,6 +110,7 @@ var store = new vuex.Store({
     removeSong({ commit, dispatch }, song) {
       myTunesDB.delete('playlists/' + song.playlistId + "/songs/" + song._id)
         .then(res => {
+          dispatch('activePlaylistSongsRemoval', res.data.playlistId)
         })
         .catch(err => {
           console.error(err)

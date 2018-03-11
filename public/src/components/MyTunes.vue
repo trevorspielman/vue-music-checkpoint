@@ -28,7 +28,7 @@
                         </th>
                         <th></th>
                     </thead>
-                    <tbody v-for="song in activePlaylist.songs">
+                    <tbody v-for="song in activeSongs">
                         <tr>
                             <td>
                                 <img :src=song.artworkUrl60>
@@ -69,6 +69,7 @@
         methods: {
             setActivePlaylist(playlist) {
                 this.$store.dispatch('setActivePlaylist', playlist)
+                this.$store.dispatch('setActiveSongs', playlist)
                 // this.$store.dispatch('songOrder', playlist)
             },
             removeSong(song) {
@@ -110,6 +111,9 @@
             playlists() {
                 return this.$store.state.playlists
             },
+            activeSongs(){
+                return this.$store.state.activeSongs
+            }
         }
     }
 
