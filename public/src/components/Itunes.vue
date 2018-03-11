@@ -73,7 +73,7 @@
                 this.$store.dispatch('searchItunes', this.artist)
             },
             addSong(song) {
-                let activeSongs = this.$store.state.activeSongs
+                let activeSongs = this.$store.state.activePlaylist.songs
                 for (var i = 0; i < activeSongs.length; i++) {
                     var mySong = activeSongs[i]
                     if (mySong.trackId == song.trackId) {

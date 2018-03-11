@@ -89,6 +89,7 @@
                 }
                 var activePlaylist = this.activePlaylist
                 this.$store.dispatch('setActivePlaylist', activePlaylist)
+                this.$store.dispatch('updateDBPlaylist', activePlaylist)
             },
             demoteSong(song) {
                 var playlist = this.$store.state.activePlaylistSongs

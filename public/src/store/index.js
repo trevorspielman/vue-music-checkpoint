@@ -81,6 +81,13 @@ var store = new vuex.Store({
           commit('setActivePlaylist', res.data)
         })
     },
+    updateDBPlaylist({commit, dispatch}, payload){
+      myTunesDB.put('playlists/' + payload._id, payload)
+      .then(res => {
+        console.log(res.data)
+        // commit('setActivePlaylist', res.data)
+      })
+    },
     activePlaylistSongsRemoval({ commit, dispatch }, payload) {
       myTunesDB.put('playlists/' + payload.playlistId, payload)
         .then(res => {
