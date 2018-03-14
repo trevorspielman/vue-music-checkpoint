@@ -76,33 +76,48 @@
                 this.$store.dispatch('activePlaylistSongsRemoval', song)
             },
             promoteSong(song) {
-                // var songOrder = this.$store.state.activePlaylist.songs
+                var songOrder = []
                 var playlist = this.$store.state.activePlaylist.songs
-                var arrIndex = -1
-                for (var i = 0; i < playlist.length; i++) {
-                    var mySong = playlist[i]
-                    if (mySong.trackId == song.trackId) {
-                        playlist.splice(i, 1)
-                        playlist.splice(i - 1, 0, song)
-                        break
-                    }
-                }
-                var activePlaylist = this.activePlaylist
-                this.$store.dispatch('setActivePlaylist', activePlaylist)
-                this.$store.dispatch('updateDBPlaylist', activePlaylist)
-            },
-            demoteSong(song) {
-                var playlist = this.$store.state.activePlaylistSongs
-                console.log("This is my playlist:", playlist)
                 for (var i = 0; i < playlist.length; i++) {
                     var mySong = playlist[i]
                     if (mySong._id == song._id) {
+                        if(i == 0){
+                            alert("This is already at the top of your list!")
+                            return
+                        }
                         playlist.splice(i, 1)
-                        playlist.splice(i + 1, 0, song)
-                        break
+                        playlist.splice(i - 1, 0, song)
                     }
                 }
-                this.$store.dispatch('demoteSong', playlist)
+                for (let x = 0; x < playlist.length; x++) {
+                    const song = playlist[x];
+                    songOrder[x] = song._id
+                    
+                }
+                var activePlaylist = this.$store.state.activePlaylist
+                this.$store.dispatch('updatePlaylist', {playlist: activePlaylist, order: songOrder})
+            },
+            demoteSong(song) {
+                var songOrder = []
+                var playlist = this.$store.state.activePlaylist.songs
+                for (var i = 0; i < playlist.length; i++) {
+                    var mySong = playlist[i]
+                    if (mySong._id == song._id) {
+                        if(i == playlist.length - 1){
+                            alert("This is already at the bottom of your list!")
+                            return
+                        }
+                        playlist.splice(i, 1)
+                        playlist.splice(i + 1, 0, song)
+                    }
+                }
+                for (let x = 0; x < playlist.length; x++) {
+                    const song = playlist[x];
+                    songOrder[x] = song._id
+                    
+                }
+                var activePlaylist = this.$store.state.activePlaylist
+                this.$store.dispatch('updatePlaylist', {playlist: activePlaylist, order: songOrder})
             },
         },
         computed: {

@@ -54,7 +54,7 @@ router.post('/api/playlists', (req, res, next) => {
 //Add a song to a playlists.song array
 router.post('/api/playlists/:id', (req, res, next) => {
     Playlists.findById(req.params.id)
-    .then(playlist => {
+        .then(playlist => {
             playlist.songs.set(playlist.songs.length, req.body)
             playlist.markModified('songs')
             playlist.save()
@@ -77,12 +77,44 @@ router.put('/api/playlists/:id', (req, res, next) => {
     Playlists.findById(req.params.id)
         .then(playlist => {
             for (var i = 0; i < playlist.songs.length; i++) {
-                if(playlist.songs[i]._id == req.body._id){
+                if (playlist.songs[i]._id == req.body._id) {
                     playlist.songs.splice(i, 1)
                     playlist.markModified('songs')
                     playlist.save()
                     break;
                 }
+            }
+            res.send(playlist)
+        })
+        .catch(next)
+})
+
+router.put('/api/playlists/:id', (req, res, next) => {
+    Playlists.findById(req.params.id)
+        .then(playlist => {
+            for (var i = 0; i < req.body.length; i++) {
+                playlist.songs.set(i, req.body[i])
+                playlist.markModified('songs')
+                playlist.save()
+            }
+            res.send(playlist)
+        })
+        .catch(next)
+})
+
+router.put('/api/playlists/:id/songs', (req, res, next) => {
+    Playlists.findById(req.params.id)
+        .then(playlist => {
+            var arr = req.body.map(elem => {
+                return playlist.songs.find(obj => {
+                    return obj._id === elem
+                })
+            })
+            for (var i = 0; i < playlist.songs.length; i++) {
+                const song = playlist.songs[i];
+                playlist.songs.set(i, arr[i])
+                playlist.markModified('songs')
+                playlist.save()
             }
             res.send(playlist)
         })
