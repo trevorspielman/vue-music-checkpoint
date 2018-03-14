@@ -10,6 +10,7 @@ var schema = new Schema({
   collectionName: {type: String},
   trackName: {type: String},
   artworkUrl60: {type: String},
+  previewUrl: {type: String},
   trackId: {type: Number},
   trackPrice: {type: Number},
   playlistId: {type: ObjectId, ref: 'playlist', required: true}

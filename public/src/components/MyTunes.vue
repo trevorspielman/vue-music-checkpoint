@@ -31,7 +31,10 @@
                     <tbody v-for="song in activePlaylist.songs">
                         <tr>
                             <td>
-                                <img :src=song.artworkUrl60>
+                                <img class="m-1" :src=song.artworkUrl60>
+                                <audio controls class="players" v-on:play="pausePlayback">
+                                    <source :src="song.previewUrl"> type="audio/mpeg</a>
+                                </audio>
                             </td>
                             <td>
                                 <p>{{song.trackName}}</p>
@@ -118,6 +121,14 @@
                 }
                 var activePlaylist = this.$store.state.activePlaylist
                 this.$store.dispatch('updatePlaylist', {playlist: activePlaylist, order: songOrder})
+            },
+            pausePlayback: function (play) { // event listener to identify the active player.
+                var player = document.getElementsByClassName('players') //aliasing the players class
+                for (let i = 0; i < player.length; i++) { //sorting through all players
+                    if (player[i] != play.target) { //identifying if the player isn't the current one active
+                        player[i].pause() //if it isn't then the current one active is paused.
+                    }
+                }
             },
         },
         computed: {
