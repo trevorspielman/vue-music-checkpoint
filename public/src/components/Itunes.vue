@@ -1,5 +1,5 @@
 <template>
-    <div class="itunes col-lg-6 col-sm-12 order-sm-last">
+    <div class="itunes col-lg-6 col-sm-12 order-sm-last order-lg-first">
         <div class="row">
             <div class="col-12 searchHeader">
                 <h2>iTunes Search</h2>
