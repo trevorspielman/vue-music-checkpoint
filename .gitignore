@@ -1,6 +1,4 @@
 .DS_Store
 node_modules/
-docs/
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
+npm-debug.log
+test/unit/coverage
