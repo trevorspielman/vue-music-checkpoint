@@ -58,7 +58,15 @@ var store = new vuex.Store({
       myTunesDB.get('playlists/' + payload._id + '/songs')
         .then(res => {
           commit('setActivePlaylist', payload)
-          // commit('setActiveSongs', res.data)
+        })
+        .catch(err => {
+          console.error(err)
+        })
+    },
+    createPlaylist({ commit, dispatch }, payload) {
+      myTunesDB.post('playlists', payload)
+        .then(res => {
+          commit('setMyPlaylists', res.data)
         })
         .catch(err => {
           console.error(err)
@@ -81,17 +89,25 @@ var store = new vuex.Store({
           commit('setActivePlaylist', res.data)
         })
     },
-    updatePlaylist({commit, dispatch}, payload){
+    updatePlaylist({ commit, dispatch }, payload) {
       myTunesDB.put('playlists/' + payload.playlist._id + '/songs/', payload.order)
-      .then(res => {
-        console.log("update data res: ", res.data)
-        commit('setActivePlaylist', res.data)
-      })
+        .then(res => {
+          console.log("update data res: ", res.data)
+          commit('setActivePlaylist', res.data)
+        })
     },
     activePlaylistSongsRemoval({ commit, dispatch }, payload) {
       myTunesDB.put('playlists/' + payload.playlistId, payload)
         .then(res => {
           commit('setActivePlaylist', res.data)
+        })
+        .catch(err => {
+          console.error(err)
+        })
+    },
+    removePlaylist({ commit, dispatch }, payload) {
+      myTunesDB.delete('playlists/' + payload._id)
+        .then(res => {
         })
         .catch(err => {
           console.error(err)

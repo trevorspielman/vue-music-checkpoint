@@ -3,7 +3,9 @@
         <div class="row">
             <div class="col-12 searchHeader">
                 <h2>iTunes Search</h2>
-                <form class="form m-3" @submit.prevent="searchItunes">
+                </div>
+                <div class="col-12">
+                <form class="form m-1" @submit.prevent="searchItunes">
                     <input class="formInput" type="text" placeholder="Artist Name" v-model="artist">
                     <button class="btn formBtn" type="submit">Search</button>
                 </form>
@@ -15,7 +17,7 @@
                     <thead>
                         <tr>
                             <th scope="col">
-                                <h4>Album:</h4>
+                                <h4>Cover:</h4>
                             </th>
                             <th scope="col">
                                 <h4>Track/Album:</h4>

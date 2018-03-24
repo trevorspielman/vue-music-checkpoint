@@ -8,9 +8,19 @@
                 </button>
                 <div class="dropdown-menu">
                     <a class="dropdown-item" v-for="playlist in playlists" href="#">
-                        <p class="dropdown-o vgft56ption" @click="setActivePlaylist(playlist)">{{playlist.name}}</p>
+                        <p class="dropdown-option" @click="setActivePlaylist(playlist)">{{playlist.name}}</p>
+                        <i class="fas fa-ban fa-2x" @click="removePlaylist(playlist)"></i>
                     </a>
+                    <span>
+                        <form action="submit" class="dropdown-item playlistForm" @submit.prevent="createPlaylist">
+                            <input class="formInput" type="text" placeholder="Playlist Name" v-model="newPlaylist.name">
+                            <button class="btn formBtn m-1" type="submit">Create</button>
+                        </form>
+                    </span>
                 </div>
+            </div>
+            <div class="col-12 d-flex align-items-center justify-content-center ">
+                <h3 class="m-1">{{activePlaylist.name}}</h3>
             </div>
         </div>
         <div class="row">
@@ -18,10 +28,10 @@
                 <table class="table">
                     <thead>
                         <th scope="col">
-                            <h4>Album:</h4>
+                            <h4>Cover:</h4>
                         </th>
                         <th scope="col">
-                            <h4>Track:</h4>
+                            <h4>Track/Album:</h4>
                         </th>
                         <th scope="col">
                             <h4>Artist:</h4>
@@ -63,16 +73,25 @@
         name: 'My-Tunes',
         mounted() {
             this.$store.dispatch('getMyPlaylists')
-
         },
         data() {
             return {
+                newPlaylist: {
+                    name: '',
+                    songs: []
+                }
             }
         },
         methods: {
+            createPlaylist() {
+                this.$store.dispatch('createPlaylist', this.newPlaylist)
+            },
             setActivePlaylist(playlist) {
                 this.$store.dispatch('setActivePlaylist', playlist)
                 // this.$store.dispatch('songOrder', playlist)
+            },
+            removePlaylist(playlist){
+                this.$store.dispatch('removePlaylist', playlist)
             },
             removeSong(song) {
                 this.$store.dispatch('removeSong', song)
@@ -84,7 +103,7 @@
                 for (var i = 0; i < playlist.length; i++) {
                     var mySong = playlist[i]
                     if (mySong._id == song._id) {
-                        if(i == 0){
+                        if (i == 0) {
                             alert("This is already at the top of your list!")
                             return
                         }
@@ -95,10 +114,10 @@
                 for (let x = 0; x < playlist.length; x++) {
                     const song = playlist[x];
                     songOrder[x] = song._id
-                    
+
                 }
                 var activePlaylist = this.$store.state.activePlaylist
-                this.$store.dispatch('updatePlaylist', {playlist: activePlaylist, order: songOrder})
+                this.$store.dispatch('updatePlaylist', { playlist: activePlaylist, order: songOrder })
             },
             demoteSong(song) {
                 var songOrder = []
@@ -106,7 +125,7 @@
                 for (var i = 0; i < playlist.length; i++) {
                     var mySong = playlist[i]
                     if (mySong._id == song._id) {
-                        if(i == playlist.length - 1){
+                        if (i == playlist.length - 1) {
                             alert("This is already at the bottom of your list!")
                             return
                         }
@@ -117,10 +136,10 @@
                 for (let x = 0; x < playlist.length; x++) {
                     const song = playlist[x];
                     songOrder[x] = song._id
-                    
+
                 }
                 var activePlaylist = this.$store.state.activePlaylist
-                this.$store.dispatch('updatePlaylist', {playlist: activePlaylist, order: songOrder})
+                this.$store.dispatch('updatePlaylist', { playlist: activePlaylist, order: songOrder })
             },
             pausePlayback: function (play) { // event listener to identify the active player.
                 var player = document.getElementsByClassName('players') //aliasing the players class
@@ -138,8 +157,13 @@
             playlists() {
                 return this.$store.state.playlists
             },
-            activeSongs(){
+            activeSongs() {
                 return this.$store.state.activeSongs
+            }
+        },
+        watch: {
+            playlists: function (newPlaylists, oldPlaylists) {
+                this.$store.dispatch('getMyPlaylists', newPlaylists)
             }
         }
     }
@@ -147,42 +171,77 @@
 </script>
 
 <style scoped>
-    .dropdown-option{
-        padding: 0px
-    }
-    .dropdown-item{
-        color: whitesmoke;
-        display: flex;
-        align-content: center
-    }
-    .dropdown-item:hover{
-        background-color: rgba(128, 0, 128, 0.541)
-    }
-    .dropdown-menu{
+    .formInput {
         border: 2px solid purple;
         border-radius: 5px;
         background-color: rgba(100, 100, 100, 0.541);
+        color: whitesmoke;
+        height: 38px;
+        background-position: 10px 10px;
+        background-image: url('../assets/searchicon.png');
+        background-repeat: no-repeat;
+        padding-left: 40px;
+        width: 75%;
     }
-    .playlistBtn{
+
+    .formBtn {
         background: purple;
         color: whitesmoke;
     }
-    .my-tunes{
+
+    .dropdown-option {
+        padding: 0px;
+        margin-bottom: 4px;
+    }
+
+    .dropdown-item {
+        color: whitesmoke;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 4px;
+    }
+
+    .playlistForm{
+        padding-left: 5px;
+        padding-right: 5px;
+    }
+
+    .dropdown-item:hover {
+        background-color: rgba(128, 0, 128, 0.541)
+    }
+
+    .dropdown-menu {
+        border: 2px solid purple;
+        border-radius: 5px;
+        background-color: rgba(100, 100, 100, 0.9);
+        width: 15vw;
+    }
+
+    .playlistBtn {
+        background: purple;
+        color: whitesmoke;
+    }
+
+    .my-tunes {
         background: linear-gradient(to right, rgba(255, 255, 255, 0.2), rgba(0, 0, 0, 0.7)), url("../assets/headerbg.jpg");
         color: whitesmoke;
         background-size: fill;
         background-attachment: fixed
     }
-    .playlistHeader{
+
+    .playlistHeader {
         display: flex;
         align-items: center;
         justify-content: center;
         height: 4rem
     }
-    h2{
+
+    h2 {
         font-family: 'Fira Sans', sans-serif;
     }
-    p{
+
+    p {
         font-family: 'Maven Pro', sans-serif;
     }
 </style>

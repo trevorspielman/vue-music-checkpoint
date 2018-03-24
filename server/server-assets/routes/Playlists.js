@@ -44,6 +44,7 @@ router.get('/api/playlists/:id/songs/:songid', (req, res, next) => {
 
 //Create a playlist
 router.post('/api/playlists', (req, res, next) => {
+    console.log(req.body)
     Playlists.create(req.body)
         .then(Playlists => {
             res.send(Playlists)

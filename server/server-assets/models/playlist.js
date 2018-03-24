@@ -10,16 +10,6 @@ var schema = new Schema({
   songs:[{
     
   }]
-
-  //createdBy: {type: ObjectId, ref: 'User', required: true},
 })
-
-// schema.statics.generateHash = function(password) {
-//   return bcrypt.hashSync(password, bcrypt.genSaltSync(SALT_FACTOR))
-// }
-
-// schema.methods.validatePassword = function(password) {
-//   return bcrypt.compareSync(password, this.password)
-// }
 
 module.exports = mongoose.model(schemaName, schema)
