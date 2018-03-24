@@ -1,5 +1,5 @@
 <template>
-    <div class="my-tunes col-sm-6">
+    <div class="my-tunes col-lg-6 col-sm-12 order-sm-first">
         <div class="row">
             <div class="col-12 d-flex align-items-center justify-content-center playlistHeader">
                 <h2 class="d-inline-flex">MyTunes</h2>
