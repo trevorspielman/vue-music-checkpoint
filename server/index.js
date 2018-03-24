@@ -4,10 +4,10 @@ let express = require("express"),
   server = express(),
   port = process.env.PORT || 3000
 
-require("./server-assets/db/mlab-config");
+require("./db/mlab-config");
 
-let Playlists = require('./server-assets/routes/Playlists')
-let Songs = require('./server-assets/routes/Songs')
+let Playlists = require('./routes/Playlists')
+let Songs = require('./routes/Songs')
 
 var whitelist = ['http://localhost:8080', 'https://vue-music-trevor.herokuapp.com/']
 var corsOptions = {
