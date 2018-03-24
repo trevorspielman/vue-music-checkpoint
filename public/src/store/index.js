@@ -14,8 +14,11 @@ let itunesApi = axios.create({
   timeout: 30000,
 })
 
+var production = !window.location.host.includes('localhost');
+var baseUrl = production ? '//vue-music-trevor.herokuapp.com/' : '//localhost:3000/';
+
 let myTunesDB = axios.create({
-  baseURL: '//localhost:3000/api/',
+  baseURL: baseUrl + 'api/',
   timeout: 30000,
 })
 
