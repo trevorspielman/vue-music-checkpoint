@@ -9,7 +9,7 @@
                 <div class="dropdown-menu">
                     <a class="dropdown-item" v-for="playlist in playlists" href="#">
                         <p class="dropdown-option" @click="setActivePlaylist(playlist)">{{playlist.name}}</p>
-                        <i class="fas fa-ban fa-2x" @click="removePlaylist(playlist)"></i>
+                        <i class="fas fa-ban" @click="removePlaylist(playlist)"></i>
                     </a>
                     <span>
                         <form action="submit" class="dropdown-item playlistForm" @submit.prevent="createPlaylist">
