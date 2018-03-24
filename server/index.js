@@ -2,7 +2,6 @@ let express = require("express"),
   bp = require("body-parser"),
   cors = require("cors"),
   server = express(),
-  
   port = process.env.PORT || 3000
 
 require("./server-assets/db/mlab-config");
