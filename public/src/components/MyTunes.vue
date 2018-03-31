@@ -177,10 +177,6 @@
         background-color: rgba(100, 100, 100, 0.541);
         color: whitesmoke;
         height: 38px;
-        background-position: 10px 10px;
-        background-image: url('../assets/searchicon.png');
-        background-repeat: no-repeat;
-        padding-left: 40px;
         width: 75%;
     }
 
